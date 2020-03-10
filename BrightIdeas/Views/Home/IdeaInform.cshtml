@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Bright_Ideas: Bright Ideas - IdeaInfo";
+}
+<a style="float: right;" class="btn btn-outline-success" href="/bright_ideas">Home</a>   <a style="float: right;" class="btn btn-outline-danger" href="/logout">Logout</a>
+<h3><a href="/users/@ViewBag.SelectedIdea.Blogger.UserId">@ViewBag.SelectedIdea.Blogger.UserAlias</a> Idea:</h3>
+<p class="alert alert-info" >@ViewBag.SelectedIdea.UserIdea</p>
+
+<h3>Poeple who have liked this idea:</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Alias</th>
+      <th >Name</th>
+    </tr>
+  </thead>
+  <tbody>
+  @{
+    foreach (var like in ViewBag.LikedBy)
+    {
+      <tr>
+        <td ><a href="/Users/@like.User.UserId">@like.User.UserAlias</a></td>
+        <td >@like.User.UserName</td>
+      </tr>
+    }
+  }
+  </tbody>
+</table>

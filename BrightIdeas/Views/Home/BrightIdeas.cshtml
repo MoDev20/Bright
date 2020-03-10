@@ -1,0 +1,63 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model Idea
+<div class="text-center">
+    <h1 class="display-5">Bright Ideas Homepage</h1>
+    
+</div >
+<h4>Welcome! Hello Brother @ViewBag.CurrentUser.UserAlias</h4>
+
+<div class = "box1">
+    <form class="btn btn-warning" action="/newidea" method="POST">
+        <div class="form-group">
+        <span asp-validation-for="UserIdea"></span>
+        <label class="btn btn-dark" for="UserIdea">Post Idea:</label>
+        <textarea class="form-control" rows="4"  id="UserIdea" type="text" name="UserIdea"></textarea>
+        <br>
+        <input  class="btn btn-success" type="submit" name="submit" value="Publish your Post!">
+        </div>
+    </form>
+<hr>
+@{
+    foreach (var idea in ViewBag.AllIdeas)
+    {
+        <div class="container">
+        <p>Alias: @idea.Blogger.UserAlias Says....</p>
+        <p class="alert alert-warning" >@idea.UserIdea</p>
+        </div>
+        <p class="btn btn-light" >
+            @if(idea.UserId == ViewBag.CurrentUser.UserId)
+            {
+                <a class="btn btn-danger" href="/delete/@idea.IdeasId">Delete</a>
+            }
+        @{
+            bool print = true;
+            foreach (var like in idea.LikedBy)
+            {
+                if (like.UserId == ViewBag.CurrentUser.UserId)
+                    {
+                        print = false; 
+                    }
+            }
+            if(print)
+            {
+                <a class="btn btn-success" href="/like/@idea.IdeasId">Like</a>
+            }
+            else
+            {
+                <span class="btn btn-info" >Already Liked!</span>
+            }
+        }
+        Like Post</p>
+        <a href="/BrightIdeas/@idea.IdeasId">@idea.LikedBy.Count likes</a>
+    }
+}
+</div>
+
+
+<div class="box2">
+    <a href="/BrightIdeas" class="btn btn-info">Bright Ideas</a>
+    <a href="/" class="btn btn-danger">Logout</a>
+</div>
